@@ -14,11 +14,11 @@ function kelvinToCelsius(k){
 }
 
 // convert kelvin to selected unit
-function convertTemprature(k){
+function convertTemperature(k){
   if (document.getElementById('imperial').checked == true) {
-    return kelvinToFarenhheit(k);
+    return kelvinToFarenhheit(k) + ' F';
   } else {
-    return kelvinToCelsius(k);
+    return kelvinToCelsius(k) + ' C';
   }
 }
 
@@ -52,18 +52,19 @@ function mpsToMPH(s){
 
 function convertSpeed(s){
   if (document.getElementById('imperial').checked == true) {
-    return mpsToMPH(s);
+    return mpsToMPH(s) + ' MPH';
   } else {
     // default unit is meters per second
-    return (s);
+    return (s) + ' MPS';
   }
 }
 
 function showUI(data){
   document.getElementById('city').innerText=data.name;
   document.getElementById('weatherMain').innerText=data.weather[0].description;
-  document.getElementById('tempNow').innerText=convertTemprature(data.main.temp);
+  document.getElementById('tempNow').innerText=convertTemperature(data.main.temp);
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
+  document.getElementById('windDegrees').innerText=data.wind.deg;
 }
 
 function showWeather(){
