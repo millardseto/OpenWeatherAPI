@@ -7,9 +7,16 @@
   </head>
   <body>
     <h1>Weather</h1>
+
     <button type="button" name="seattle" class="seattle" data-lat="47.6762" data-lon="-122.3182">Seattle</button>
     <button type="button" name="london" class="london" data-lat="51.5074" data-lon="0.1278">London</button>
     <script type="text/javascript" src="weather.js"></script>
+
+    <div>
+      <input id='imperial' type="radio" name="unit" value="imperial" checked=""> Imperial
+      <input id='metric' type="radio" name="unit" value="metric"> Metric
+    </div>
+
 
     <div class="">
       <p>City: <span id='city'></span></p>

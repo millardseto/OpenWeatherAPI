@@ -6,6 +6,19 @@ function kelvinToFarenhheit(k){
   return (((k-273.15)*1.8)+32).toFixed(2);
 }
 
+function kelvinToCelsius(k){
+  return (k-273.15).toFixed(2);
+}
+
+// convert kelvin to selected unit
+function convertTemprature(k){
+  if (document.getElementById('imperial').checked == true) {
+    return kelvinToFarenhheit(k);
+  } else {
+    return kelvinToCelsius(k);
+  }
+}
+
 // callback for api request
 function reqListener () {
   //console.log(this.responseText);
@@ -32,7 +45,7 @@ function reqListener () {
 function showUI(data){
   document.getElementById('city').innerText=data.name;
   document.getElementById('weatherMain').innerText=data.weather[0].description;
-  document.getElementById('tempNow').innerText=kelvinToFarenhheit(data.main.temp);
+  document.getElementById('tempNow').innerText=convertTemprature(data.main.temp);
   document.getElementById('windSpeed').innerText=data.wind.speed;
 }
 
