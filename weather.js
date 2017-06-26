@@ -45,11 +45,25 @@ function reqListener () {
     }
 }
 
+function mpsToMPH(s){
+  // 1 mps = 2.23694 mph
+  return (s * 2.23694).toFixed(2);
+}
+
+function convertSpeed(s){
+  if (document.getElementById('imperial').checked == true) {
+    return mpsToMPH(s);
+  } else {
+    // default unit is meters per second
+    return (s);
+  }
+}
+
 function showUI(data){
   document.getElementById('city').innerText=data.name;
   document.getElementById('weatherMain').innerText=data.weather[0].description;
   document.getElementById('tempNow').innerText=convertTemprature(data.main.temp);
-  document.getElementById('windSpeed').innerText=data.wind.speed;
+  document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
 }
 
 function showWeather(){
