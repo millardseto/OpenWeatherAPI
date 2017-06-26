@@ -1,6 +1,9 @@
+var data;
+
 // button controls
 const london = document.querySelector('button.london');
 const seattle = document.querySelector('button.seattle');
+
 
 function kelvinToFarenhheit(k){
   return (((k-273.15)*1.8)+32).toFixed(2);
@@ -23,7 +26,7 @@ function convertTemprature(k){
 function reqListener () {
   //console.log(this.responseText);
   if (this.readyState == 4 && this.status == 200) {
-        var data = JSON.parse(this.responseText);
+        data = JSON.parse(this.responseText);
         /*
         name
         main.temp
@@ -51,7 +54,7 @@ function showUI(data){
 
 function showWeather(){
   // debug - use hardcoded data to avoid overusing api and getting blocked.
-  var data = JSON.parse('{"coord":{"lon":-122.32,"lat":47.68},"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}],"base":"stations","main":{"temp":289.27,"pressure":1015,"humidity":87,"temp_min":288.15,"temp_max":290.15},"visibility":16093,"wind":{"speed":2.6,"deg":180},"clouds":{"all":90},"dt":1498490280,"sys":{"type":1,"id":2949,"message":0.0043,"country":"US","sunrise":1498479191,"sunset":1498536685},"id":7261476,"name":"Inglewood-Finn Hill","cod":200}');
+  data = JSON.parse('{"coord":{"lon":-122.32,"lat":47.68},"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}],"base":"stations","main":{"temp":289.27,"pressure":1015,"humidity":87,"temp_min":288.15,"temp_max":290.15},"visibility":16093,"wind":{"speed":2.6,"deg":180},"clouds":{"all":90},"dt":1498490280,"sys":{"type":1,"id":2949,"message":0.0043,"country":"US","sunrise":1498479191,"sunset":1498536685},"id":7261476,"name":"Inglewood-Finn Hill","cod":200}');
   showUI(data);
   return;
 
@@ -69,7 +72,17 @@ function showWeather(){
 
 // When the dom is ready, wire up event handlers
 document.addEventListener("DOMContentLoaded", function () {
+  const unitImperial = document.getElementById('imperial');
+  const unitMetric = document.getElementById('metric');
+
   // event handlers
   london.addEventListener('click', showWeather);
   seattle.addEventListener('click', showWeather);
+
+  unitMetric.addEventListener('click', function(){
+    showUI(data);
+  });
+  unitImperial.addEventListener('click', function(){
+    showUI(data);
+  });
 })
