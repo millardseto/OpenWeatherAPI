@@ -2,9 +2,7 @@ var data;
 const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
-// button controls
-const london = document.querySelector('button.london');
-const seattle = document.querySelector('button.seattle');
+
 
 
 function kelvinToFarenhheit(k){
@@ -79,6 +77,9 @@ function showWeather(){
 
 // When the dom is ready, wire up event handlers
 document.addEventListener("DOMContentLoaded", function () {
+  // button controls
+  const london = document.querySelector('button.london');
+  const seattle = document.querySelector('button.seattle');  
   const unitImperial = document.getElementById('imperial');
   const unitMetric = document.getElementById('metric');
 
