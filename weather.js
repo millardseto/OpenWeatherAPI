@@ -3,8 +3,6 @@ const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
 
-
-
 function kelvinToFarenhheit(k){
   return (((k-273.15)*1.8)+32).toFixed(2);
 }
@@ -51,6 +49,12 @@ function showUI(data){
   document.getElementById('tempNow').innerText=convertTemperature(data.main.temp);
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
   document.getElementById('windDegrees').innerText=data.wind.deg;
+
+  let icon = document.getElementById('icon');
+  let iconCode = data.weather[0].id;
+  let iconClass = `owf-${iconCode}`;
+  icon.className="";
+  icon.classList.add("owf", iconClass, "owf-5x");
 }
 
 function showWeather(){
@@ -79,7 +83,7 @@ function showWeather(){
 document.addEventListener("DOMContentLoaded", function () {
   // button controls
   const london = document.querySelector('button.london');
-  const seattle = document.querySelector('button.seattle');  
+  const seattle = document.querySelector('button.seattle');
   const unitImperial = document.getElementById('imperial');
   const unitMetric = document.getElementById('metric');
 
