@@ -66,11 +66,12 @@ function showWeather(){
   // get custom attributes from control
   let lat = this.getAttribute("data-lat");
   let lon = this.getAttribute("data-lon");
-  //params = {"lat":lat, "lon":lon, "APPID": appId};
+  params = {"lat":lat, "lon":lon, "APPID": appID};
+  let query = queryBuilder(params);
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  let apiCall = `${apiURL}?lat=${lat}&lon=${lon}&APPID=${appID}`;
+  let apiCall = apiURL + query;
   oReq.open("GET", apiCall);
   oReq.send();
 
@@ -92,3 +93,23 @@ document.addEventListener("DOMContentLoaded", function () {
     showUI(data);
   });
 })
+
+
+// input {name: "elvis", location: "seattle"}
+// output: ?name=elvis&location=seattle
+function queryBuilder(queryObj){
+  let holder = [];
+
+  // loop through key values
+  for (let key in queryObj) {
+
+    // make each one into "key=value", encode to handle special characters like &
+    let convert = `${encodeURIComponent(key)}=${queryObj[encodeURIComponent(key)]}`
+
+    //console.log(convert);
+    holder.push(convert);
+  }
+
+  // return value
+  return '?'+holder.join("&");
+}
