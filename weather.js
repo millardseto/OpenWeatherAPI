@@ -45,16 +45,24 @@ function convertSpeed(s){
 
 function showUI(data){
   document.getElementById('city').innerText=data.name;
-  document.getElementById('weatherMain').innerText=data.weather[0].description;
+  document.getElementById('weatherMain').innerText=data.weather[0].main;
   document.getElementById('tempNow').innerText=convertTemperature(data.main.temp);
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
   document.getElementById('windDegrees').innerText=data.wind.deg;
 
+  /* testing owfont
   let icon = document.getElementById('icon');
   let iconCode = data.weather[0].id;
   let iconClass = `owf-${iconCode}`;
   icon.className="";
   icon.classList.add("owf", iconClass, "owf-5x");
+  */
+
+  // Set the weather image
+  let icon2 = document.getElementById('icon2');
+  let iconSource = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+  icon2.setAttribute("src", iconSource);
+  icon2.setAttribute("alt", data.weather[0].description);
 }
 
 function showWeather(){
