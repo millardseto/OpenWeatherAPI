@@ -1,4 +1,6 @@
 var data;
+const apiURL = "http://api.openweathermap.org/data/2.5/weather";
+const appID = "a90133976c46059fee7922fcf02e5dba";
 
 // button controls
 const london = document.querySelector('button.london');
@@ -64,10 +66,11 @@ function showWeather(){
   // get custom attributes from control
   let lat = this.getAttribute("data-lat");
   let lon = this.getAttribute("data-lon");
+  //params = {"lat":lat, "lon":lon, "APPID": appId};
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  let apiCall = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=a90133976c46059fee7922fcf02e5dba`;
+  let apiCall = `${apiURL}?lat=${lat}&lon=${lon}&APPID=${appID}`;
   oReq.open("GET", apiCall);
   oReq.send();
 
