@@ -16,9 +16,9 @@ function kelvinToCelsius(k){
 // convert kelvin to selected unit
 function convertTemperature(k){
   if (document.getElementById('imperial').checked == true) {
-    return kelvinToFarenhheit(k) + ' F';
+    return kelvinToFarenhheit(k) + ' °F';
   } else {
-    return kelvinToCelsius(k) + ' C';
+    return kelvinToCelsius(k) + ' °C';
   }
 }
 
@@ -27,20 +27,6 @@ function reqListener () {
   //console.log(this.responseText);
   if (this.readyState == 4 && this.status == 200) {
         data = JSON.parse(this.responseText);
-        /*
-        name
-        main.temp
-        main.temp_min
-        main.temp_max
-        main.pressure
-        main.humitidy
-        weather[0].description
-        sys.sunrise UTC
-        sys.sunset UTC
-        clouds.all cloud %
-        wind.speed
-         */
-
          showUI(data);
     }
 }
@@ -69,9 +55,11 @@ function showUI(data){
 
 function showWeather(){
   // debug - use hardcoded data to avoid overusing api and getting blocked.
+  /*
   data = JSON.parse('{"coord":{"lon":-122.32,"lat":47.68},"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}],"base":"stations","main":{"temp":289.27,"pressure":1015,"humidity":87,"temp_min":288.15,"temp_max":290.15},"visibility":16093,"wind":{"speed":2.6,"deg":180},"clouds":{"all":90},"dt":1498490280,"sys":{"type":1,"id":2949,"message":0.0043,"country":"US","sunrise":1498479191,"sunset":1498536685},"id":7261476,"name":"Inglewood-Finn Hill","cod":200}');
   showUI(data);
   return;
+  */
 
   // get custom attributes from control
   let lat = this.getAttribute("data-lat");
