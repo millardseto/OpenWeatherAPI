@@ -59,10 +59,14 @@ function showUI(data){
   */
 
   // Set the weather image
-  let icon2 = document.getElementById('icon2');
+  let icon2 = document.createElement('img');
   let iconSource = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
   icon2.setAttribute("src", iconSource);
   icon2.setAttribute("alt", data.weather[0].description);
+
+  let iconDiv = document.getElementById('iconDiv');
+  iconDiv.innerHTML = "";
+  iconDiv.appendChild(icon2);
 }
 
 function showWeather(){
