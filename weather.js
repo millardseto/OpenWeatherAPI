@@ -1,5 +1,7 @@
 var data;
-const apiURL = "http://api.openweathermap.org/data/2.5/weather";
+//const apiURL = "http://api.openweathermap.org/data/2.5/weather";
+// To host on github, use API Proxy
+const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
 
