@@ -11,29 +11,8 @@ function kelvinToFarenhheit(k){
   return (((k-273.15)*1.8)+32).toFixed(1);
 }
 
-function kelvinToCelsius(k){
-  return (k-273.15).toFixed(1);
-}
-
-// convert kelvin to selected unit
-function convertTemperature(k){
-  if (isImperial()) {
-    return kelvinToFarenhheit(k);
-  } else {
-    return kelvinToCelsius(k);
-  }
-}
-
-function isImperial(){
-  return (document.getElementById('imperial').checked == true);
-}
-
 function getTempUnit(){
-  if (isImperial()) {
     return '°F';
-  } else {
-    return '°C';
-  }
 }
 
 // callback for api request
@@ -51,69 +30,20 @@ function mpsToMPH(s){
 }
 
 function convertSpeed(s){
-  if (isImperial()) {
     return mpsToMPH(s) + ' MPH';
-  } else {
-    // default unit is meters per second
-    return (s) + ' MPS';
-  }
-}
-
-function calculateChillF(tempF, speed) {
-		var chill = (35.74 + (.6215 * tempF)) - (35.75 * Math.pow(speed, .16)) + (.4275 * (tempF * Math.pow(speed, .16)));
-		return chill;
-}
-
-function celciusToFarenheit(c){
-  return c * 9 / 5 + 32;
-}
-
-function farenheitToCelcius(f){
-  return f - 32 * 5 / 9;
-}
-
-function calculateChill(k){
-  let t = convertTemperature(k);
-
-  // t is either celcius or farenheit
-  // the chillfactor only works in farenheit so we need logic to handle celcius.
-
-  let chill = 0;
-  let f = 0;
-
-  // make sure temperature is in farenheit
-  if (isImperial()){
-    // t is already in farenheit
-    f = t;
-  } else {
-    // convert t (celcius) to farenheit
-    f = celciusToFarenheit(t);
-  }
-
-  // get temperature with chill factor (in f)
-  chill = calculateChillF(f);
-
-
-  // if user selected imperial, return chill (already in f)
-  if (isImperial()){
-    return chill;
-  }
-  else {
-    // else convert chill (f) to c and return it
-    return farenheitToCelcius(chill);
-  }
-
 }
 
 
 function showUI(data){
   document.getElementById('city').innerText=data.name;
+
   document.getElementById('weatherMain').innerText=data.weather[0].main;
-  document.getElementById('tempNow').innerText=convertTemperature(data.main.temp);
-  document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
-  document.getElementById('windDegrees').innerText=data.wind.deg;
+  document.getElementById('tempNow').innerText=kelvinToFarenhheit(data.main.temp);
   document.getElementById('tempUnit').innerText=getTempUnit();
-  document.getElementById('feelsLike').innertext=`Feels like ${calculateChill(data.main.temp)} ${getTempUnit()}`;
+  document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
+
+  document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
+  document.getElementById('windDegrees').innerText=`Direction:  ${data.wind.deg}`;
 
   /* testing owfont
   let icon = document.getElementById('icon');
@@ -198,14 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // event handlers
   london.addEventListener('click', showWeather);
   seattle.addEventListener('click', showWeather);
-  myLocation.addEventListener('click', showWeather)
-
-  unitMetric.addEventListener('click', function(){
-    showUI(data);
-  });
-  unitImperial.addEventListener('click', function(){
-    showUI(data);
-  });
+  myLocation.addEventListener('click', showWeather);
 })
 
 
