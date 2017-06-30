@@ -58,6 +58,7 @@ function showUI(data){
   let iconSource = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
   icon2.setAttribute("src", iconSource);
   icon2.setAttribute("alt", data.weather[0].description);
+  icon2.setAttribute("class", "icon");
   //icon2.setAttribute("class", "flex-column");
 
   let iconDiv = document.getElementById('iconDiv');
@@ -122,8 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const unitImperial = document.getElementById('imperial');
   const unitMetric = document.getElementById('metric');
-
-
 
   // event handlers
   london.addEventListener('click', showWeather);
