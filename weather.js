@@ -17,15 +17,19 @@ function kelvinToCelsius(k){
 
 // convert kelvin to selected unit
 function convertTemperature(k){
-  if (document.getElementById('imperial').checked == true) {
+  if (isImperial()) {
     return kelvinToFarenhheit(k);
   } else {
     return kelvinToCelsius(k);
   }
 }
 
+function isImperial(){
+  return (document.getElementById('imperial').checked == true);
+}
+
 function getTempUnit(){
-  if (document.getElementById('imperial').checked == true) {
+  if (isImperial()) {
     return '°F';
   } else {
     return '°C';
@@ -47,7 +51,7 @@ function mpsToMPH(s){
 }
 
 function convertSpeed(s){
-  if (document.getElementById('imperial').checked == true) {
+  if (isImperial()) {
     return mpsToMPH(s) + ' MPH';
   } else {
     // default unit is meters per second
@@ -55,10 +59,52 @@ function convertSpeed(s){
   }
 }
 
-function calculateChill(tempF, speed) {
+function calculateChillF(tempF, speed) {
 		var chill = (35.74 + (.6215 * tempF)) - (35.75 * Math.pow(speed, .16)) + (.4275 * (tempF * Math.pow(speed, .16)));
 		return chill;
-	}
+}
+
+function celciusToFarenheit(c){
+  return c * 9 / 5 + 32;
+}
+
+function farenheitToCelcius(f){
+  return f - 32 * 5 / 9;
+}
+
+function calculateChill(k){
+  let t = convertTemperature(k);
+
+  // t is either celcius or farenheit
+  // the chillfactor only works in farenheit so we need logic to handle celcius.
+
+  let chill = 0;
+  let f = 0;
+
+  // make sure temperature is in farenheit
+  if (isImperial()){
+    // t is already in farenheit
+    f = t;
+  } else {
+    // convert t (celcius) to farenheit
+    f = celciusToFarenheit(t);
+  }
+
+  // get temperature with chill factor (in f)
+  chill = calculateChillF(f);
+
+
+  // if user selected imperial, return chill (already in f)
+  if (isImperial()){
+    return chill;
+  }
+  else {
+    // else convert chill (f) to c and return it
+    return farenheitToCelcius(chill);
+  }
+
+}
+
 
 function showUI(data){
   document.getElementById('city').innerText=data.name;
@@ -67,6 +113,7 @@ function showUI(data){
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
   document.getElementById('windDegrees').innerText=data.wind.deg;
   document.getElementById('tempUnit').innerText=getTempUnit();
+  document.getElementById('feelsLike').innertext=`Feels like ${calculateChill(data.main.temp)} ${getTempUnit()}`;
 
   /* testing owfont
   let icon = document.getElementById('icon');
