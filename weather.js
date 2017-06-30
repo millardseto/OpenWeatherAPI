@@ -94,6 +94,7 @@ function showWeather(){
 function positionSuccess(position){
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
+  const myLocation = document.querySelector('button.myLocation');
   myLocation.setAttribute("data-lat", lat);
   myLocation.setAttribute("data-lon", lon);
 
