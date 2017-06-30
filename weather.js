@@ -1,5 +1,5 @@
 var data;
-const debug = true;
+const debug = false;
 
 //const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 // To host on github, use API Proxy
