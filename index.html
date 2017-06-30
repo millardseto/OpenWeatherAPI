@@ -10,18 +10,47 @@
     <!-- see https://websygen.github.io/owfont/  -->
   </head>
   <body>
-    <h1>Weather</h1>
+    <h2 id="city">Weather</h2>
     <!-- owfont test
     <i id="icon"></i>
     -->
 
-    <div id="iconDiv">
+    <div class="container">
+      <div id="iconDiv" class="flex1">
 
+      </div>
+
+
+      <div class="flex2">
+        <span id='tempNow' class="temp">
+
+        </span>
+        <span id='tempUnit'></span>
+      </div>
+
+
+      <div class="flex1">
+        <p id='windSpeed'></p>
+      </div>
     </div>
+
+    <div class="container">
+      <div class="flex1">
+        <p id='weatherMain'></p>
+      </div>
+      <div class="flex2">
+        x
+      </div>
+      <div class="flex1">
+        <p>Direction <span id='windDegrees'></span></p>
+      </div>
+    </div>
+
 
 
     <button type="button" name="seattle" class="seattle" data-lat="47.6762" data-lon="-122.3182">Seattle</button>
     <button type="button" name="london" class="london" data-lat="51.5074" data-lon="0.1278">London</button>
+    <button type="button" name="myLocation" class="myLocation">My Location</button>
     <script type="text/javascript" src="weather.js"></script>
 
     <div>
@@ -30,24 +59,12 @@
     </div>
 
 
-    <div class="">
-      <p>City: <span id='city'></span></p>
-    </div>
+
+
+
 
     <div class="">
-      <p>Weather: <span id='weatherMain'></span></p>
-    </div>
 
-    <div class="">
-      <p>Temp: <span id='tempNow'></span></p>
-    </div>
-
-    <div class="">
-      <p>Wind: <span id='windSpeed'></span></p>
-    </div>
-
-    <div class="">
-      <p>Wind Degrees: <span id='windDegrees'></span></p>
     </div>
 
 

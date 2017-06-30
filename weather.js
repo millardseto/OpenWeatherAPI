@@ -1,4 +1,6 @@
 var data;
+const debug = true;
+
 //const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 // To host on github, use API Proxy
 const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
@@ -6,19 +8,27 @@ const appID = "a90133976c46059fee7922fcf02e5dba";
 
 
 function kelvinToFarenhheit(k){
-  return (((k-273.15)*1.8)+32).toFixed(2);
+  return (((k-273.15)*1.8)+32).toFixed(1);
 }
 
 function kelvinToCelsius(k){
-  return (k-273.15).toFixed(2);
+  return (k-273.15).toFixed(1);
 }
 
 // convert kelvin to selected unit
 function convertTemperature(k){
   if (document.getElementById('imperial').checked == true) {
-    return kelvinToFarenhheit(k) + ' °F';
+    return kelvinToFarenhheit(k);
   } else {
-    return kelvinToCelsius(k) + ' °C';
+    return kelvinToCelsius(k);
+  }
+}
+
+function getTempUnit(){
+  if (document.getElementById('imperial').checked == true) {
+    return '°F';
+  } else {
+    return '°C';
   }
 }
 
@@ -45,12 +55,18 @@ function convertSpeed(s){
   }
 }
 
+function calculateChill(tempF, speed) {
+		var chill = (35.74 + (.6215 * tempF)) - (35.75 * Math.pow(speed, .16)) + (.4275 * (tempF * Math.pow(speed, .16)));
+		return chill;
+	}
+
 function showUI(data){
   document.getElementById('city').innerText=data.name;
   document.getElementById('weatherMain').innerText=data.weather[0].main;
   document.getElementById('tempNow').innerText=convertTemperature(data.main.temp);
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
   document.getElementById('windDegrees').innerText=data.wind.deg;
+  document.getElementById('tempUnit').innerText=getTempUnit();
 
   /* testing owfont
   let icon = document.getElementById('icon');
@@ -65,11 +81,14 @@ function showUI(data){
   let iconSource = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
   icon2.setAttribute("src", iconSource);
   icon2.setAttribute("alt", data.weather[0].description);
+  //icon2.setAttribute("class", "flex-column");
 
   let iconDiv = document.getElementById('iconDiv');
   iconDiv.innerHTML = "";
   iconDiv.appendChild(icon2);
 }
+
+
 
 function showWeather(){
   // debug - use hardcoded data to avoid overusing api and getting blocked.
@@ -82,6 +101,7 @@ function showWeather(){
   // get custom attributes from control
   let lat = this.getAttribute("data-lat");
   let lon = this.getAttribute("data-lon");
+
   params = {"lat":lat, "lon":lon, "APPID": appID};
   let query = queryBuilder(params);
 
@@ -93,17 +113,45 @@ function showWeather(){
 
 }
 
+function positionSuccess(position){
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  myLocation.setAttribute("data-lat", lat);
+  myLocation.setAttribute("data-lon", lon);
+
+}
+
+function positionError(failure){
+  console.log("code: " + failure.code);
+  console.log("message: " + failure.message);
+}
+
 // When the dom is ready, wire up event handlers
 document.addEventListener("DOMContentLoaded", function () {
   // button controls
   const london = document.querySelector('button.london');
   const seattle = document.querySelector('button.seattle');
+  const myLocation = document.querySelector('button.myLocation');
+
+  // getCurrentPosition doesnt always work on local machine, hardcode test values
+  if (debug){
+    // 47.5721227,-121.9972376
+    myLocation.setAttribute("data-lat", 47.5721227);
+    myLocation.setAttribute("data-lon", -121.9972376);
+  } else {
+    // get user lat/lon now and set custom attributes on the myLocation button.
+    navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+  }
+
   const unitImperial = document.getElementById('imperial');
   const unitMetric = document.getElementById('metric');
+
+
 
   // event handlers
   london.addEventListener('click', showWeather);
   seattle.addEventListener('click', showWeather);
+  myLocation.addEventListener('click', showWeather)
 
   unitMetric.addEventListener('click', function(){
     showUI(data);
