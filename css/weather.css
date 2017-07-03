@@ -30,7 +30,8 @@ body {
 }
 
 #tempUnit {
-
+  vertical-align:top;
+  color: gold;
 }
 
 .icon {
