@@ -6,22 +6,13 @@ const debug = false;
 const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
-
+// BEGIN Converstion functions --------------------------
 function kelvinToFarenhheit(k){
   return (((k-273.15)*1.8)+32).toFixed(1);
 }
 
 function getTempUnit(){
     return '°F';
-}
-
-// callback for api request
-function reqListener () {
-  //console.log(this.responseText);
-  if (this.readyState == 4 && this.status == 200) {
-        data = JSON.parse(this.responseText);
-         showUI(data);
-    }
 }
 
 function mpsToMPH(s){
@@ -32,29 +23,40 @@ function mpsToMPH(s){
 function convertSpeed(s){
     return mpsToMPH(s) + ' MPH';
 }
+// END conversion functions
 
+
+// callback for api request
+function reqListener () {
+  //console.log(this.responseText);
+  if (this.readyState == 4 && this.status == 200) {
+        data = JSON.parse(this.responseText);
+         showUI(data);
+    }
+}
+
+// show wind direction as an arrow showing the direction (versus showing degrees)
 function setDirection(){
-  // set arrow and rotate
+  // set arrow
   let direction = document.getElementById('windDegrees');
   direction.innerText = "↑";
 
+  // rotate
   let degreeContainer = document.getElementById("degreeContainer");
   degreeContainer.style.transform=`rotate(${data.main.temp}deg)`;
 
 }
 
+// show response data in the UI
 function showUI(data){
   document.getElementById('city').innerText=data.name;
-
   document.getElementById('weatherMain').innerText=data.weather[0].main;
   document.getElementById('tempNow').innerText=kelvinToFarenhheit(data.main.temp);
   document.getElementById('tempUnit').innerText=getTempUnit();
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
-
   document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
   //document.getElementById('windDegrees').innerText=`Direction:  ${data.wind.deg}`;
   setDirection();
-
 
   // Set the weather image
   let icon2 = document.createElement('img');
@@ -62,7 +64,6 @@ function showUI(data){
   icon2.setAttribute("src", iconSource);
   icon2.setAttribute("alt", data.weather[0].description);
   icon2.setAttribute("class", "icon");
-  //icon2.setAttribute("class", "flex-column");
 
   let iconDiv = document.getElementById('iconDiv');
   iconDiv.innerHTML = "";
@@ -70,8 +71,7 @@ function showUI(data){
 }
 
 
-
-function showWeather(){
+function getWeatherFromAPI(){
   // debug - use hardcoded data to avoid overusing api and getting blocked.
   /*
   data = JSON.parse('{"coord":{"lon":-122.32,"lat":47.68},"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}],"base":"stations","main":{"temp":289.27,"pressure":1015,"humidity":87,"temp_min":288.15,"temp_max":290.15},"visibility":16093,"wind":{"speed":2.6,"deg":180},"clouds":{"all":90},"dt":1498490280,"sys":{"type":1,"id":2949,"message":0.0043,"country":"US","sunrise":1498479191,"sunset":1498536685},"id":7261476,"name":"Inglewood-Finn Hill","cod":200}');
@@ -94,13 +94,14 @@ function showWeather(){
 
 }
 
+// lookup user location and save it as custom attributes on the button.
 function positionSuccess(position){
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
+
   const myLocation = document.querySelector('button.myLocation');
   myLocation.setAttribute("data-lat", lat);
   myLocation.setAttribute("data-lon", lon);
-
 }
 
 function positionError(failure){
@@ -125,16 +126,13 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
   }
 
-  const unitImperial = document.getElementById('imperial');
-  const unitMetric = document.getElementById('metric');
-
   // event handlers
-  london.addEventListener('click', showWeather);
-  seattle.addEventListener('click', showWeather);
-  myLocation.addEventListener('click', showWeather);
+  london.addEventListener('click', getWeatherFromAPI);
+  seattle.addEventListener('click', getWeatherFromAPI);
+  myLocation.addEventListener('click', getWeatherFromAPI);
 })
 
-
+// Builds query parameters
 // input {name: "elvis", location: "seattle"}
 // output: ?name=elvis&location=seattle
 function queryBuilder(queryObj){
