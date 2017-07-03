@@ -1,5 +1,5 @@
 var data;
-const debug = false;
+const debug = true;
 
 //const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 // To host on github, use API Proxy
@@ -33,6 +33,15 @@ function convertSpeed(s){
     return mpsToMPH(s) + ' MPH';
 }
 
+function setDirection(){
+  // set arrow and rotate
+  let direction = document.getElementById('windDegrees');
+  direction.innerText = "↑";
+
+  let degreeContainer = document.getElementById("degreeContainer");
+  degreeContainer.style.transform=`rotate(${data.main.temp}deg)`;
+
+}
 
 function showUI(data){
   document.getElementById('city').innerText=data.name;
@@ -43,7 +52,8 @@ function showUI(data){
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
 
   document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
-  document.getElementById('windDegrees').innerText=`Direction:  ${data.wind.deg}`;
+  //document.getElementById('windDegrees').innerText=`Direction:  ${data.wind.deg}`;
+  setDirection();
 
   /* testing owfont
   let icon = document.getElementById('icon');
