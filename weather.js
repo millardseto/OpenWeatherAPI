@@ -55,17 +55,10 @@ function showUI(data){
   //document.getElementById('windDegrees').innerText=`Direction:  ${data.wind.deg}`;
   setDirection();
 
-  /* testing owfont
-  let icon = document.getElementById('icon');
-  let iconCode = data.weather[0].id;
-  let iconClass = `owf-${iconCode}`;
-  icon.className="";
-  icon.classList.add("owf", iconClass, "owf-5x");
-  */
 
   // Set the weather image
   let icon2 = document.createElement('img');
-  let iconSource = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+  let iconSource = `./icons/${data.weather[0].icon}.png`;
   icon2.setAttribute("src", iconSource);
   icon2.setAttribute("alt", data.weather[0].description);
   icon2.setAttribute("class", "icon");
