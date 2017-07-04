@@ -40,12 +40,18 @@ function reqListener () {
 function setDirection(){
   // set arrow
   let direction = document.getElementById('windDegrees');
-  direction.innerText = "↑";
 
-  // rotate
-  let degreeContainer = document.getElementById("degreeContainer");
-  degreeContainer.style.transform=`rotate(${data.wind.deg}deg)`;
-  degreeContainer.style.transition="1s ease-in-out";
+  // may not have degree data, so reset every time and check for existence
+  direction.innerText = "";
+
+  if (data.wind.deg) {
+    direction.innerText = "↑";
+
+    // rotate
+    let degreeContainer = document.getElementById("degreeContainer");
+    degreeContainer.style.transform=`rotate(${data.wind.deg}deg)`;
+    degreeContainer.style.transition="1s ease-in-out";
+  }
 }
 
 function setIcon(){
