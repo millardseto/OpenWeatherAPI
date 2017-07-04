@@ -91,6 +91,7 @@ function setSunRiseIcon(){
   let sunrise = document.createElement("img");
   sunrise.setAttribute("src", "./icons/sunrise.png");
   sunrise.setAttribute("class", "sun");
+  sunrise.setAttribute("alt", "sunrise image");
   let container = document.getElementById("sunriseContainer");
   container.innerHTML=null;
   container.appendChild(sunrise);
@@ -106,6 +107,7 @@ function setSunSetIcon(){
 
   sunset.setAttribute("src", "./icons/sunset.png");
   sunset.setAttribute("class", "sun");
+  sunset.setAttribute("alt", "sunset image");
   let container = document.getElementById("sunsetContainer");
   container.innerHTML=null;
   container.appendChild(sunset);
