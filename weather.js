@@ -83,7 +83,7 @@ function calcTime(utc, offset) {
     nd = new Date(utc + (3600000*offset));
 
     // return time as a string
-    return nd.toLocaleString();
+    return nd.toLocaleTimeString();
 
 }
 
