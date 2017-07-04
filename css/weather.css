@@ -59,3 +59,8 @@ body {
 .sunsetTime{
   vertical-align:top;
 }
+
+.outerContainer {
+  border: 1rem solid gray;
+  padding: 1rem;
+}

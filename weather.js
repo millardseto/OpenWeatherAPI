@@ -45,6 +45,7 @@ function setDirection(){
   // rotate
   let degreeContainer = document.getElementById("degreeContainer");
   degreeContainer.style.transform=`rotate(${data.wind.deg}deg)`;
+  degreeContainer.style.transition="1s ease-in-out";
 }
 
 function setIcon(){
