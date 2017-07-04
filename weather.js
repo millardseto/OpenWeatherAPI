@@ -126,7 +126,7 @@ function showUI(data){
   document.getElementById('tempNow').innerText=kelvinToFarenhheit(data.main.temp);
   document.getElementById('tempUnit').innerText=getTempUnit();
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
-  document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
+  document.getElementById('humidity').innerHTML=`Humidity ${data.main.humidity}<sup>%</sup>`;
   //document.getElementById('sunrise').innerText=calcTime(data.sys.sunrise, offset);
   //document.getElementById('sunset').innerText=calcTime(data.sys.sunset, offset);
 
