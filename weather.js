@@ -1,5 +1,6 @@
 var data;
 const debug = false;
+var offset = 0;
 
 //const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 // To host on github, use API Proxy
@@ -44,20 +45,9 @@ function setDirection(){
   // rotate
   let degreeContainer = document.getElementById("degreeContainer");
   degreeContainer.style.transform=`rotate(${data.wind.deg}deg)`;
-
 }
 
-// show response data in the UI
-function showUI(data){
-  document.getElementById('city').innerText=data.name;
-  document.getElementById('weatherMain').innerText=data.weather[0].main;
-  document.getElementById('tempNow').innerText=kelvinToFarenhheit(data.main.temp);
-  document.getElementById('tempUnit').innerText=getTempUnit();
-  document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
-  document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
-  //document.getElementById('windDegrees').innerText=`Direction:  ${data.wind.deg}`;
-  setDirection();
-
+function setIcon(){
   // Set the weather image
   let icon2 = document.createElement('img');
   let iconSource = `./icons/${data.weather[0].icon}.png`;
@@ -68,6 +58,51 @@ function showUI(data){
   let iconDiv = document.getElementById('iconDiv');
   iconDiv.innerHTML = "";
   iconDiv.appendChild(icon2);
+}
+
+function getTimeFromUTC(utc){
+  var d = new Date(1000*utc);
+  return d.toTimeString();
+}
+
+// function to calculate local time
+// in a different city
+// given the city's UTC offset
+function calcTime(utc, offset) {
+
+    // create Date object for current location
+    d = new Date(1000*utc);
+
+    // convert to msec
+    // add local time zone offset
+    // get UTC time in msec
+    utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+    // create new Date object for different city
+    // using supplied offset
+    nd = new Date(utc + (3600000*offset));
+
+    // return time as a string
+    return nd.toLocaleString();
+
+}
+
+
+// show response data in the UI
+function showUI(data){
+  document.getElementById('city').innerText=data.name;
+  document.getElementById('weatherMain').innerText=data.weather[0].main;
+  document.getElementById('tempNow').innerText=kelvinToFarenhheit(data.main.temp);
+  document.getElementById('tempUnit').innerText=getTempUnit();
+  document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
+  document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
+  document.getElementById('sunrise').innerText=`Sunrise ${calcTime(data.sys.sunrise, offset)}`;
+  document.getElementById('sunset').innerText=`Sunset ${calcTime(data.sys.sunset, offset)}`;
+
+  setDirection();
+
+  setIcon();
+
 }
 
 
@@ -82,6 +117,7 @@ function getWeatherFromAPI(){
   // get custom attributes from control
   let lat = this.getAttribute("data-lat");
   let lon = this.getAttribute("data-lon");
+  offset = this.getAttribute("data-timeOffset");
 
   params = {"lat":lat, "lon":lon, "APPID": appID};
   let query = queryBuilder(params);
@@ -102,6 +138,11 @@ function positionSuccess(position){
   const myLocation = document.querySelector('button.myLocation');
   myLocation.setAttribute("data-lat", lat);
   myLocation.setAttribute("data-lon", lon);
+
+  // determine offset hours by doing a lookup.
+  let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
+  myOffset = -myOffset/60; // convert to hours
+  myLocation.setAttribute("data-timeOffset", myOffset);
 }
 
 function positionError(failure){
