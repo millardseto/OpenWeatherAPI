@@ -87,6 +87,35 @@ function calcTime(utc, offset) {
 
 }
 
+function setSunRiseIcon(){
+  let sunrise = document.createElement("img");
+  sunrise.setAttribute("src", "./icons/sunrise.png");
+  sunrise.setAttribute("class", "sun");
+  let container = document.getElementById("sunriseContainer");
+  container.innerHTML=null;
+  container.appendChild(sunrise);
+
+  let riseTime = document.createElement("span");
+  riseTime.setAttribute("class", "sunriseTime");
+  riseTime.innerText = calcTime(data.sys.sunrise, offset);
+  container.appendChild(riseTime);
+}
+
+function setSunSetIcon(){
+  let sunset = document.createElement("img");
+
+  sunset.setAttribute("src", "./icons/sunset.png");
+  sunset.setAttribute("class", "sun");
+  let container = document.getElementById("sunsetContainer");
+  container.innerHTML=null;
+  container.appendChild(sunset);
+
+  let setTime = document.createElement("span");
+  setTime.setAttribute("class", "sunsetTime");
+  setTime.innerText = calcTime(data.sys.sunset, offset);
+  container.appendChild(setTime);
+}
+
 
 // show response data in the UI
 function showUI(data){
@@ -96,12 +125,13 @@ function showUI(data){
   document.getElementById('tempUnit').innerText=getTempUnit();
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
   document.getElementById('humidity').innerText=`Humidity ${data.main.humidity}`;
-  document.getElementById('sunrise').innerText=`Sunrise ${calcTime(data.sys.sunrise, offset)}`;
-  document.getElementById('sunset').innerText=`Sunset ${calcTime(data.sys.sunset, offset)}`;
+  //document.getElementById('sunrise').innerText=calcTime(data.sys.sunrise, offset);
+  //document.getElementById('sunset').innerText=calcTime(data.sys.sunset, offset);
 
   setDirection();
-
   setIcon();
+  setSunRiseIcon();
+  setSunSetIcon();
 
 }
 

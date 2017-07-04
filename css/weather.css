@@ -49,3 +49,13 @@ body {
 .wait {
   cursor:wait
 }
+
+.sun {
+  height: 2rem;
+  padding-right: .5rem;
+}
+.sunriseTime{
+}
+.sunsetTime{
+  vertical-align:top;
+}
