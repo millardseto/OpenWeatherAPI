@@ -138,6 +138,8 @@ function positionSuccess(position){
   const myLocation = document.querySelector('button.myLocation');
   myLocation.setAttribute("data-lat", lat);
   myLocation.setAttribute("data-lon", lon);
+  myLocation.disabled = false;
+  myLocation.classList.remove("wait");
 
   // determine offset hours by doing a lookup.
   let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
@@ -156,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const london = document.querySelector('button.london');
   const seattle = document.querySelector('button.seattle');
   const myLocation = document.querySelector('button.myLocation');
+  myLocation.disabled = true;
+  myLocation.classList.add("wait");
 
   // getCurrentPosition doesnt always work on local machine, hardcode test values
   if (debug){

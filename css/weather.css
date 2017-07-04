@@ -45,3 +45,7 @@ body {
 #windDegrees {
   font-size: 3rem;
 }
+
+.wait {
+  cursor:wait
+}
